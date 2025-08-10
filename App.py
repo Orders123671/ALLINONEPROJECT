@@ -96,7 +96,7 @@ def get_fee_for_location(location, order_amount):
         else:
             return f"Minimum Order Amount of AED{min_order:.2f} not met. Delivery Charge: AED{charge:.2f}"
     else:
-        return "Location not found in database."
+        return "Location not found in records."
 
 # --- Streamlit App Layout ---
 st.set_page_config(layout="wide", page_title="Delivery Fee Tracker 🚚")
@@ -113,7 +113,7 @@ tab1, tab2, tab3 = st.tabs(["Manage Fees", "Calculate Fee", "About"])
 with tab1:
     st.header("Manage Delivery Fees")
 
-    st.subheader("Add New Entry")
+    st.subheader("Add New Location and Delivery Fee")
     with st.form("add_form", clear_on_submit=True):
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -129,7 +129,7 @@ with tab1:
         with col5:
             new_zone = st.text_input("Zone", key="add_zone")
         
-        add_submitted = st.form_submit_button("Add Entry")
+        add_submitted = st.form_submit_button("Save")
         if add_submitted:
             if new_location and new_min_order is not None and new_delivery_charge is not None and new_free_delivery_amount is not None:
                 if add_entry(new_location, new_min_order, new_delivery_charge, new_free_delivery_amount, new_zone):
