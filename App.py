@@ -102,44 +102,171 @@ def get_fee_for_location(location, order_amount):
         if order_amount >= free_delivery_amount:
             return "Free Delivery (Order amount qualifies)"
         elif order_amount >= min_order:
-            return f"Delivery Charge: AED{charge:.2f}"
+            return f"Delivery Charge: ${charge:.2f}"
         else:
-            return f"Minimum Order Amount of AED{min_order:.2f} not met. Delivery Charge: AED{charge:.2f}"
+            return f"Minimum Order Amount of ${min_order:.2f} not met. Delivery Charge: ${charge:.2f}"
     else:
         return "Location not found in database."
 
 # --- Streamlit App Layout ---
 st.set_page_config(layout="wide", page_title="Delivery Fee Tracker 🚚")
 
-# Custom CSS for standard light background and black text, and normal borders for text inputs
+# Custom CSS for a professional look with dark mode adaptation:
 st.markdown(
     """
     <style>
+    /* Light Mode Default Styles */
     .stApp {
-        background-color: #F0F2F6; /* Standard light gray/off-white */
-        color: #000000; /* Black */
+        background-color: #F8F9FA; /* A very light, clean gray, close to white */
+        color: #343A40; /* Darker gray for primary text for better contrast */
     }
+
     /* Set color for labels and general text within Streamlit components */
     div.stTextInput label, div.stNumberInput label, div.stSelectbox label,
     div.stTextInput input, div.stNumberInput input, div.stSelectbox div[data-baseweb="select"] {
-        color: #000000;
+        color: #343A40; /* Darker text for labels */
     }
-    .stDataFrame {
-        color: #000000; /* Ensure dataframe text is black */
-    }
-    /* Reverted text input, number input, and selectbox backgrounds to more "normal" styling */
+    
+    /* Ensure input fields and selectboxes have a white background and standard border */
     div.stTextInput div[data-baseweb="input"],
     div.stNumberInput div[data-baseweb="input"],
     div.stSelectbox div[data-baseweb="select"] {
         background-color: #FFFFFF; /* White background for text boxes */
-        border: 1px solid #ced4da; /* A more "normal" border, similar to default Streamlit */
-        border-radius: 5px; /* Rounded corners for consistency */
+        border: 1px solid #CED4DA; /* Standard light gray border */
+        border-radius: 0.25rem; /* Slightly rounded corners */
     }
+
     /* Style for the selectbox dropdown options, ensuring black text on white */
     div[data-baseweb="popover"] ul li {
-        color: #000000;
+        color: #343A40;
         background-color: #FFFFFF;
     }
+
+    /* Professional styling for buttons */
+    .stButton>button {
+        background-color: #007BFF; /* A clean blue */
+        color: white;
+        border: none;
+        padding: 0.6em 1.2em;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.2s ease;
+    }
+
+    .stButton>button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    /* General text and headers */
+    h1, h2, h3, h4, h5, h6 {
+        color: #212529; /* Even darker gray for headings */
+        font-weight: 600; /* Slightly bolder headings */
+    }
+
+    p, li {
+        color: #343A40;
+    }
+
+    /* Improve tab styling for a professional look */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0.5rem;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        background-color: #E9ECEF; /* Light gray for inactive tabs */
+        border-radius: 0.25rem 0.25rem 0 0;
+        padding: 0.6rem 1rem;
+        font-weight: 500;
+        color: #495057; /* Darker gray for tab text */
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: #DEE2E6; /* Slightly darker on hover */
+    }
+
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
+        background-color: #FFFFFF; /* White for active tab */
+        color: #007BFF; /* Blue for active tab text */
+        border-bottom: 3px solid #007BFF; /* Blue underline for active tab */
+        font-weight: 600;
+    }
+
+    /* --- Dark Mode Styles --- */
+    @media (prefers-color-scheme: dark) {
+        .stApp {
+            background-color: #212529; /* Darker background for dark mode */
+            color: #F8F9FA; /* Lighter text for dark mode */
+        }
+
+        div.stTextInput label, div.stNumberInput label, div.stSelectbox label,
+        div.stTextInput input, div.stNumberInput input, div.stSelectbox div[data-baseweb="select"] {
+            color: #E9ECEF; /* Lighter text for labels in dark mode */
+        }
+        
+        div.stTextInput div[data-baseweb="input"],
+        div.stNumberInput div[data-baseweb="input"],
+        div.stSelectbox div[data-baseweb="select"] {
+            background-color: #343A40; /* Darker background for input boxes in dark mode */
+            border: 1px solid #6C757D; /* Lighter border for dark mode */
+        }
+
+        div[data-baseweb="popover"] ul li {
+            color: #E9ECEF;
+            background-color: #343A40;
+        }
+
+        .stButton>button {
+            background-color: #0056b3; /* Slightly darker blue for buttons in dark mode */
+            color: white;
+        }
+        .stButton>button:hover {
+            background-color: #004085; /* Even darker blue on hover in dark mode */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #F8F9FA; /* Lighter headings for dark mode */
+        }
+
+        p, li {
+            color: #F8F9FA;
+        }
+
+        .stTabs [data-baseweb="tab"] {
+            background-color: #343A40; /* Darker gray for inactive tabs in dark mode */
+            color: #ADB5BD; /* Lighter gray for tab text in dark mode */
+        }
+
+        .stTabs [data-baseweb="tab"]:hover {
+            background-color: #495057; /* Slightly lighter on hover in dark mode */
+        }
+
+        .stTabs [data-baseweb="tab"][aria-selected="true"] {
+            background-color: #212529; /* Dark background for active tab in dark mode */
+            color: #0099FF; /* Brighter blue for active tab text in dark mode */
+            border-bottom: 3px solid #0099FF; /* Brighter blue underline */
+        }
+    }
+
+    /* Hide Streamlit's "Made with Streamlit" header badge */
+    [data-testid="stHeader"] {
+        display: none !important;
+    }
+
+    /* Hide Streamlit's "Made with Streamlit" footer text */
+    [data-testid="stFooter"] {
+        display: none !important;
+    }
+
+    /* Hide the hamburger menu and the app title in the header if desired */
+    /* Note: Hiding stToolbar will also hide the default app title and menu button */
+    [data-testid="stToolbar"] {
+        visibility: hidden !important;
+        height: 0 !important;
+        position: fixed !important; /* Prevents layout shift */
+    }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -163,10 +290,10 @@ if 'selected_location_for_edit_delete' not in st.session_state:
 
 
 # --- Tabs for different functionalities ---
-tab_manage, tab_add, tab_edit, tab_calculate, tab_about = st.tabs(["Search", "Add", "Edit/Delete Entry", "Calculate Fee", "About"])
+tab_search, tab_add, tab_edit, tab_calculate, tab_about = st.tabs(["Search Delivery Fee", "Add Entry", "Edit/Delete Entry", "Calculate Fee", "About"])
 
-with tab_manage:
-    st.header("Search")
+with tab_search:
+    st.header("Search Delivery Fee")
 
     st.subheader("Existing Delivery Fee Data")
     
@@ -180,26 +307,25 @@ with tab_manage:
     # Note: Update and Delete functionality moved to a separate tab
     st.info("To update or delete an entry, please navigate to the 'Edit/Delete Entry' tab.")
 
-
 with tab_add:
-    st.header("Add Location and Delivery Fee")
+    st.header("Add New Delivery Fee Entry")
 
     with st.form("add_form", clear_on_submit=True):
         new_location = st.text_input("Location", key="add_location_text_input_field")
         
         col2, col3 = st.columns(2)
         with col2:
-            new_min_order = st.number_input("Minimum Order Amount (AED)", min_value=0.0, format="%.2f", key="add_min_order")
+            new_min_order = st.number_input("Minimum Order Amount ($)", min_value=0.0, format="%.2f", key="add_min_order")
         with col3:
-            new_delivery_charge = st.number_input("Delivery Charge (AED)", min_value=0.0, format="%.2f", key="add_delivery_charge")
+            new_delivery_charge = st.number_input("Delivery Charge ($)", min_value=0.0, format="%.2f", key="add_delivery_charge")
         
         col4, col5 = st.columns(2)
         with col4:
-            new_free_delivery_amount = st.number_input("Amount for Free Delivery (AED)", min_value=0.0, format="%.2f", key="add_free_delivery_amount")
+            new_free_delivery_amount = st.number_input("Amount for Free Delivery ($)", min_value=0.0, format="%.2f", key="add_free_delivery_amount")
         with col5:
             new_zone = st.text_input("Zone (e.g., North, South)", key="add_zone")
         
-        add_submitted = st.form_submit_button("Save Location")
+        add_submitted = st.form_submit_button("Add Entry")
         if add_submitted:
             if new_location and new_min_order is not None and new_delivery_charge is not None and new_free_delivery_amount is not None:
                 if add_entry(new_location, new_min_order, new_delivery_charge, new_free_delivery_amount, new_zone):
@@ -242,13 +368,13 @@ with tab_edit:
                 with col1_upd:
                     update_location = st.text_input("Location", value=selected_entry['location'], key="upd_location")
                 with col2_upd:
-                    update_min_order = st.number_input("Minimum Order Amount (AED)", min_value=0.0, value=float(selected_entry['min_order_amount']), format="%.2f", key="upd_min_order")
+                    update_min_order = st.number_input("Minimum Order Amount ($)", min_value=0.0, value=float(selected_entry['min_order_amount']), format="%.2f", key="upd_min_order")
                 with col3_upd:
-                    update_delivery_charge = st.number_input("Delivery Charge (AED)", min_value=0.0, value=float(selected_entry['delivery_charge']), format="%.2f", key="upd_delivery_charge")
+                    update_delivery_charge = st.number_input("Delivery Charge ($)", min_value=0.0, value=float(selected_entry['delivery_charge']), format="%.2f", key="upd_delivery_charge")
                 
                 col4_upd, col5_upd = st.columns(2)
                 with col4_upd:
-                    update_free_delivery_amount = st.number_input("Amount for Free Delivery (AED)", min_value=0.0, value=float(selected_entry['amount_for_free_delivery']), format="%.2f", key="upd_free_delivery_amount")
+                    update_free_delivery_amount = st.number_input("Amount for Free Delivery ($)", min_value=0.0, value=float(selected_entry['amount_for_free_delivery']), format="%.2f", key="upd_free_delivery_amount")
                 with col5_upd:
                     update_zone = st.text_input("Zone", value=selected_entry['zone'] if pd.notna(selected_entry['zone']) else "", key="upd_zone") # Handle NaN for zone
                 
@@ -303,7 +429,7 @@ with tab_calculate:
             st.session_state.calc_location_selected_index = 0
 
         calc_order_amount = st.number_input(
-            "Enter Order Amount (AED)",
+            "Enter Order Amount ($)",
             min_value=0.0,
             format="%.2f",
             key="calc_order_amount",
@@ -314,7 +440,7 @@ with tab_calculate:
         if st.button("Calculate Fee"):
             if selected_calc_location and calc_order_amount is not None:
                 st.session_state.fee_calculation_result = get_fee_for_location(selected_calc_location, calc_order_amount)
-                st.info(f"For an order of AED{calc_order_amount:.2f} in {selected_calc_location}: {st.session_state.fee_calculation_result}")
+                st.info(f"For an order of ${calc_order_amount:.2f} in {selected_calc_location}: {st.session_state.fee_calculation_result}")
             else:
                 st.error("Please select a location and enter an order amount.")
         
@@ -322,7 +448,7 @@ with tab_calculate:
         if st.session_state.fee_calculation_result:
             # Re-display the result if it was set, using the actual selected location string
             if selected_calc_location: # Ensure selected_calc_location is not None before displaying
-                st.info(f"For an order of AED{st.session_state.calc_order_amount_value:.2f} in {selected_calc_location}: {st.session_state.fee_calculation_result}")
+                st.info(f"For an order of ${st.session_state.calc_order_amount_value:.2f} in {selected_calc_location}: {st.session_state.fee_calculation_result}")
 
     else:
         st.warning("No locations available to calculate fees. Please add locations in the 'Add Entry' tab first.")
@@ -331,7 +457,8 @@ with tab_about:
     st.header("About This App")
     st.markdown("""
     This application helps you manage and calculate delivery fees based on different locations.
-    
+    It stores the data locally using **SQLite3**, provides a user-friendly interface with **Streamlit**,
+    and is built using **Python**.
 
     **Features:**
     - Add new delivery fee entries (Location, Minimum Order Amount, Delivery Charge, Amount for Free Delivery, Zone).
@@ -342,8 +469,8 @@ with tab_about:
     - Real-time search for entries by Location or Zone.
 
     **How to use:**
-    1.  **Add Entry:** Use this tab to add new delivery fee records.
-    2.  **Manage Fees:** Use this tab to view and search existing delivery fee records.
+    1.  **Search Delivery Fee:** Use this tab to view and search existing delivery fee records.
+    2.  **Add Entry:** Use this tab to add new delivery fee records.
     3.  **Edit/Delete Entry:** Use this tab to update or delete specific delivery fee records.
     4.  **Calculate Fee:** Use this tab to quickly check the delivery fee for a specific location and order amount.
     """)
