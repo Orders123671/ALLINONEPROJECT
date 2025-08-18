@@ -111,142 +111,16 @@ def get_fee_for_location(location, order_amount):
 # --- Streamlit App Layout ---
 st.set_page_config(layout="wide", page_title="Delivery Fee Tracker 🚚")
 
-# Custom CSS for a professional look with dark mode adaptation:
+# Custom CSS for a standard Streamlit look
 st.markdown(
     """
     <style>
-    /* Light Mode Default Styles */
+    /* Light Mode Default (Standard Streamlit) */
     .stApp {
-        background-color: #F8F9FA; /* A very light, clean gray, close to white */
-        color: #343A40; /* Darker gray for primary text for better contrast */
-    }
-
-    /* Set color for labels and general text within Streamlit components */
-    div.stTextInput label, div.stNumberInput label, div.stSelectbox label,
-    div.stTextInput input, div.stNumberInput input, div.stSelectbox div[data-baseweb="select"] {
-        color: #343A40; /* Darker text for labels */
-    }
-    
-    /* Ensure input fields and selectboxes have a white background and standard border */
-    div.stTextInput div[data-baseweb="input"],
-    div.stNumberInput div[data-baseweb="input"],
-    div.stSelectbox div[data-baseweb="select"] {
-        background-color: #FFFFFF; /* White background for text boxes */
-        border: 1px solid #CED4DA; /* Standard light gray border */
-        border-radius: 0.25rem; /* Slightly rounded corners */
-    }
-
-    /* Style for the selectbox dropdown options, ensuring black text on white */
-    div[data-baseweb="popover"] ul li {
-        color: #343A40;
-        background-color: #FFFFFF;
-    }
-
-    /* Professional styling for buttons */
-    .stButton>button {
-        background-color: #007BFF; /* A clean blue */
-        color: white;
-        border: none;
-        padding: 0.6em 1.2em;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background-color 0.2s ease;
-    }
-
-    .stButton>button:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-    }
-
-    /* General text and headers */
-    h1, h2, h3, h4, h5, h6 {
-        color: #212529; /* Even darker gray for headings */
-        font-weight: 600; /* Slightly bolder headings */
-    }
-
-    p, li {
-        color: #343A40;
-    }
-
-    /* Improve tab styling for a professional look */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 0.5rem;
-    }
-
-    .stTabs [data-baseweb="tab"] {
-        background-color: #E9ECEF; /* Light gray for inactive tabs */
-        border-radius: 0.25rem 0.25rem 0 0;
-        padding: 0.6rem 1rem;
-        font-weight: 500;
-        color: #495057; /* Darker gray for tab text */
-        transition: background-color 0.2s ease, color 0.2s ease;
-    }
-
-    .stTabs [data-baseweb="tab"]:hover {
-        background-color: #DEE2E6; /* Slightly darker on hover */
-    }
-
-    .stTabs [data-baseweb="tab"][aria-selected="true"] {
-        background-color: #FFFFFF; /* White for active tab */
-        color: #007BFF; /* Blue for active tab text */
-        border-bottom: 3px solid #007BFF; /* Blue underline for active tab */
-        font-weight: 600;
-    }
-
-    /* --- Dark Mode Styles --- */
-    @media (prefers-color-scheme: dark) {
-        .stApp {
-            background-color: #212529; /* Darker background for dark mode */
-            color: #F8F9FA; /* Lighter text for dark mode */
-        }
-
-        div.stTextInput label, div.stNumberInput label, div.stSelectbox label,
-        div.stTextInput input, div.stNumberInput input, div.stSelectbox div[data-baseweb="select"] {
-            color: #E9ECEF; /* Lighter text for labels in dark mode */
-        }
-        
-        div.stTextInput div[data-baseweb="input"],
-        div.stNumberInput div[data-baseweb="input"],
-        div.stSelectbox div[data-baseweb="select"] {
-            background-color: #343A40; /* Darker background for input boxes in dark mode */
-            border: 1px solid #6C757D; /* Lighter border for dark mode */
-        }
-
-        div[data-baseweb="popover"] ul li {
-            color: #E9ECEF;
-            background-color: #343A40;
-        }
-
-        .stButton>button {
-            background-color: #0056b3; /* Slightly darker blue for buttons in dark mode */
-            color: white;
-        }
-        .stButton>button:hover {
-            background-color: #004085; /* Even darker blue on hover in dark mode */
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            color: #F8F9FA; /* Lighter headings for dark mode */
-        }
-
-        p, li {
-            color: #F8F9FA;
-        }
-
-        .stTabs [data-baseweb="tab"] {
-            background-color: #343A40; /* Darker gray for inactive tabs in dark mode */
-            color: #ADB5BD; /* Lighter gray for tab text in dark mode */
-        }
-
-        .stTabs [data-baseweb="tab"]:hover {
-            background-color: #495057; /* Slightly lighter on hover in dark mode */
-        }
-
-        .stTabs [data-baseweb="tab"][aria-selected="true"] {
-            background-color: #212529; /* Dark background for active tab in dark mode */
-            color: #0099FF; /* Brighter blue for active tab text in dark mode */
-            border-bottom: 3px solid #0099FF; /* Brighter blue underline */
-        }
+        /* Streamlit's default background is a very light gray or white */
+        /* We'll override the previous custom color to let Streamlit manage theme or use a very neutral one */
+        background-color: var(--background-color); /* Let Streamlit's default or its theme config handle */
+        color: var(--text-color); /* Let Streamlit's default or its theme config handle */
     }
 
     /* Hide Streamlit's "Made with Streamlit" header badge */
@@ -259,14 +133,88 @@ st.markdown(
         display: none !important;
     }
 
-    /* Hide the hamburger menu and the app title in the header if desired */
-    /* Note: Hiding stToolbar will also hide the default app title and menu button */
+    /* Hide the hamburger menu and the app title in the header */
     [data-testid="stToolbar"] {
         visibility: hidden !important;
         height: 0 !important;
         position: fixed !important; /* Prevents layout shift */
     }
 
+    /* Resetting other elements to their standard Streamlit appearance or browser defaults */
+    div.stTextInput label, div.stNumberInput label, div.stSelectbox label,
+    div.stTextInput input, div.stNumberInput input, div.stSelectbox div[data-baseweb="select"] {
+        color: unset; /* Revert to default text color */
+    }
+    
+    div.stTextInput div[data-baseweb="input"],
+    div.stNumberInput div[data-baseweb="input"],
+    div.stSelectbox div[data-baseweb="select"] {
+        background-color: unset; /* Revert to default background */
+        border: unset; /* Revert to default border */
+        border-radius: unset; /* Revert to default border-radius */
+    }
+
+    div[data-baseweb="popover"] ul li {
+        color: unset;
+        background-color: unset;
+    }
+
+    .stButton>button {
+        background-color: unset; /* Revert to default button styles */
+        color: unset;
+        border: unset;
+        padding: unset;
+        border-radius: unset;
+        cursor: unset;
+        font-weight: unset;
+        transition: unset;
+    }
+
+    .stButton>button:hover {
+        background-color: unset;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: unset; /* Revert to default heading colors */
+        font-weight: unset;
+    }
+
+    p, li {
+        color: unset; /* Revert to default paragraph/list colors */
+    }
+
+    /* Adjust tab styling for spacing */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0; /* Reset gap if any */
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        margin-right: 10px; /* Add 10px spacing to the right of each tab */
+        /* Other tab styling like background-color, border-radius etc. should be inherited from Streamlit's default */
+        background-color: unset; 
+        border-radius: unset;
+        padding: unset;
+        font-weight: unset;
+        color: unset;
+        transition: unset;
+    }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: unset;
+    }
+
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
+        background-color: unset;
+        color: unset;
+        border-bottom: unset;
+        font-weight: unset;
+    }
+
+    /*
+    Streamlit's native theming handles dark mode automatically for most components.
+    By removing explicit light/dark mode overrides in CSS, we let Streamlit's
+    internal theme variables control it.
+    */
     </style>
     """,
     unsafe_allow_html=True
@@ -278,7 +226,9 @@ st.markdown("---")
 # Initialize the database on first run
 init_db()
 
-# --- Initialize session state for calculation inputs ---
+# --- Initialize session state for calculate tab (now removed) ---
+# These session state variables are no longer directly used for display,
+# but keeping them doesn't hurt.
 if 'calc_location_selected_index' not in st.session_state:
     st.session_state.calc_location_selected_index = 0
 if 'calc_order_amount_value' not in st.session_state:
@@ -290,7 +240,8 @@ if 'selected_location_for_edit_delete' not in st.session_state:
 
 
 # --- Tabs for different functionalities ---
-tab_search, tab_add, tab_edit, tab_calculate, tab_about = st.tabs(["Search Delivery Fee", "Add Entry", "Edit/Delete Entry", "Calculate Fee", "About"])
+# Removed tab_calculate
+tab_search, tab_add, tab_edit, tab_about = st.tabs(["Search Delivery Fee", "Add Entry", "Edit/Delete Entry", "About"])
 
 with tab_search:
     st.header("Search Delivery Fee")
@@ -401,57 +352,6 @@ with tab_edit:
     else:
         st.info("No delivery fee entries yet. Add some in the 'Add Entry' tab!")
 
-with tab_calculate:
-    st.header("Calculate Delivery Fee")
-    all_locations = get_all_entries()['location'].tolist() # Get all locations regardless of search
-    if all_locations:
-        # Set default index for selectbox based on session state
-        default_calc_index = 0
-        if isinstance(st.session_state.calc_location_selected_index, int) and \
-           0 <= st.session_state.calc_location_selected_index < len(all_locations):
-            default_calc_index = st.session_state.calc_location_selected_index
-
-        selected_calc_location = st.selectbox(
-            "Select Location",
-            options=all_locations,
-            key="calc_location",
-            index=default_calc_index
-        )
-        
-        # Update the session state index based on the actual selected *value*
-        if selected_calc_location:
-            try:
-                st.session_state.calc_location_selected_index = all_locations.index(selected_calc_location)
-            except ValueError:
-                # Should not happen if selected_calc_location comes from all_locations
-                st.session_state.calc_location_selected_index = 0
-        else:
-            st.session_state.calc_location_selected_index = 0
-
-        calc_order_amount = st.number_input(
-            "Enter Order Amount ($)",
-            min_value=0.0,
-            format="%.2f",
-            key="calc_order_amount",
-            value=st.session_state.calc_order_amount_value
-        )
-        
-        # Only one button now: Calculate Fee
-        if st.button("Calculate Fee"):
-            if selected_calc_location and calc_order_amount is not None:
-                st.session_state.fee_calculation_result = get_fee_for_location(selected_calc_location, calc_order_amount)
-                st.info(f"For an order of ${calc_order_amount:.2f} in {selected_calc_location}: {st.session_state.fee_calculation_result}")
-            else:
-                st.error("Please select a location and enter an order amount.")
-        
-        # Display the fee calculation result persistently
-        if st.session_state.fee_calculation_result:
-            # Re-display the result if it was set, using the actual selected location string
-            if selected_calc_location: # Ensure selected_calc_location is not None before displaying
-                st.info(f"For an order of ${st.session_state.calc_order_amount_value:.2f} in {selected_calc_location}: {st.session_state.fee_calculation_result}")
-
-    else:
-        st.warning("No locations available to calculate fees. Please add locations in the 'Add Entry' tab first.")
 
 with tab_about:
     st.header("About This App")
@@ -465,12 +365,10 @@ with tab_about:
     - View all existing delivery fee data.
     - Update details of existing entries.
     - Delete entries.
-    - Calculate delivery fees based on a selected location and order amount.
     - Real-time search for entries by Location or Zone.
 
     **How to use:**
     1.  **Search Delivery Fee:** Use this tab to view and search existing delivery fee records.
     2.  **Add Entry:** Use this tab to add new delivery fee records.
     3.  **Edit/Delete Entry:** Use this tab to update or delete specific delivery fee records.
-    4.  **Calculate Fee:** Use this tab to quickly check the delivery fee for a specific location and order amount.
     """)
